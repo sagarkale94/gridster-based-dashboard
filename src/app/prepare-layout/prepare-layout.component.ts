@@ -1,6 +1,6 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { CompactType, GridsterConfig, GridsterItem, GridsterItemComponent, GridsterPush, GridType } from 'angular-gridster2';
+import { CompactType, GridsterConfig, GridsterItem, GridsterItemComponent, GridsterPush, GridType, DisplayGrid } from 'angular-gridster2';
 import { Router } from '@angular/router';
 
 @Component({
@@ -22,7 +22,10 @@ export class PrepareLayoutComponent implements OnInit {
     {
       title: 'Pie'
     }
-  ]
+  ];
+  graphTypeRecentlyDragged: string;
+
+
   constructor(
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher,
@@ -47,14 +50,16 @@ export class PrepareLayoutComponent implements OnInit {
         enabled: true
       },
       maxCols: 6,
+      minCols: 6,
       enableEmptyCellDrop: true,
       emptyCellDropCallback: this.newWidgetCallback.bind(this),
       // swap:true,
       swapWhileDragging: true,
+      displayGrid: DisplayGrid.Always,
     };
-    
 
-    if ((localStorage.getItem('layout') != null) || (localStorage.getItem('layout') != undefined)) {
+
+    /* if ((localStorage.getItem('layout') != null) || (localStorage.getItem('layout') != undefined)) {
       this.dashboard = JSON.parse(localStorage.getItem('layout'));
     } else {
       this.dashboard = [
@@ -70,16 +75,22 @@ export class PrepareLayoutComponent implements OnInit {
         { cols: 1, rows: 1, y: 3, x: 4 },
         { cols: 1, rows: 1, y: 0, x: 6 }
       ];
-    }
+    } */
 
-    // this.options.emptyCellDropCallback = this.newWidgetCallback.bind(this);
+    this.dashboard = [];
 
   }
-  
-  newWidgetCallback(event, item){
-   this.dashboard.push(item);
- }
- 
+
+  newWidgetCallback(event, item) {
+    item.type = this.graphTypeRecentlyDragged;
+    console.log(event, item);
+    this.dashboard.push(item);
+  }
+
+  drggedGraph(graphTitle) {
+    this.graphTypeRecentlyDragged = graphTitle
+  }
+
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
@@ -90,7 +101,7 @@ export class PrepareLayoutComponent implements OnInit {
     }
   }
 
-  removeItem($event, item) {
+  removeItem($event, item) {    
     $event.preventDefault();
     $event.stopPropagation();
     this.dashboard.splice(this.dashboard.indexOf(item), 1);

@@ -30,3 +30,15 @@ $dynamic-layout-demo-theme: mat-light-theme($dynamic-layout-demo-primary, $dynam
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.gridster-row {
+    border-top: 2px dashed #BBC6EF !important;
+    border-bottom: 2px dashed #BBC6EF !important;
+  }
+
+  
+  .gridster-column {
+    border-left: 2px dashed #BBC6EF !important;
+    border-right: 2px dashed #BBC6EF !important;
+  }
