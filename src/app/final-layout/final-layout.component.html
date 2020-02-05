@@ -1,0 +1,9 @@
+<div fxFlex="100" fxLayout="row">
+    <div style="width: 100%; height: 100vh;">
+        <gridster [options]="options">
+            <gridster-item [item]="item" *ngFor="let item of dashboard" style="padding: 5px;">
+                <app-tile></app-tile>
+            </gridster-item>
+        </gridster>
+    </div>
+</div>

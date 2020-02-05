@@ -1,0 +1,12 @@
+<div fxLayout="column" fxLayoutAlign="end center" style="height: 100%;">
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="changeChartType()">
+            <mat-icon>dialpad</mat-icon>
+            <span>Change Chart Type</span>
+        </button>
+    </mat-menu>
+    <div id="chartdiv" style="width: 90%; height: 75%"></div>
+</div>

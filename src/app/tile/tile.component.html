@@ -1,0 +1,37 @@
+<div style="padding:15px; height: 100%;" fxLayout="column">
+    <div fxLayout="row" fxLayoutAlign="space-between center" style="height: 15%;">
+        <div>
+            <mat-form-field>
+                <mat-label>Filter</mat-label>
+                <mat-select>
+                    <mat-option *ngFor="let filter of arrFilter" [value]="filter.value">
+                        {{filter.viewValue}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-menu #menu="matMenu">
+                <button *ngFor="let visualType of arrVisualType" (click)="changeVisualType(visualType.value)"
+                    mat-menu-item>
+                    <mat-icon>dialpad</mat-icon>
+                    <span>{{visualType.viewValue}}</span>
+                </button>
+            </mat-menu>
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div [ngSwitch]="visualType" style="height: 85%;">
+        <div *ngSwitchCase="0"  style="height: 100%;">
+            <app-bar-chart style="height: 100%;"></app-bar-chart>
+        </div>
+        <div *ngSwitchCase="1" style="height: 100%;">
+            <app-pie-chart style="height: 100%;"></app-pie-chart>
+        </div>
+        <div *ngSwitchDefault>
+            No visual type found...
+        </div>
+    </div>
+</div>
