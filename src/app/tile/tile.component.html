@@ -23,12 +23,15 @@
             </button>
         </div>
     </div> -->
-    <div [ngSwitch]="visualType" style="height: 85%;">
+    <div [ngSwitch]="visualType" style="height: 100%;">
         <div *ngSwitchCase="0"  style="height: 100%;">
             <app-bar-chart style="height: 100%;"></app-bar-chart>
         </div>
         <div *ngSwitchCase="1" style="height: 100%;">
             <app-pie-chart style="height: 100%;"></app-pie-chart>
+        </div>
+        <div *ngSwitchCase="2" style="height: 100%;">
+            <app-guage-chart style="height: 100%;"></app-guage-chart>
         </div>
         <div *ngSwitchDefault>
             No visual type found...

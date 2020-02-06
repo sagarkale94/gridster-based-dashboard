@@ -19,6 +19,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { PieCHartComponent } from './pie-chart/pie-chart.component';
 import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { GuageChartComponent } from './guage-chart/guage-chart.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,8 @@ import { MatCardModule } from '@angular/material/card';
     GraphComponent,
     TileComponent,
     BarChartComponent,
-    PieCHartComponent
+    PieCHartComponent,
+    GuageChartComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +46,9 @@ import { MatCardModule } from '@angular/material/card';
     DragDropModule,
     MatMenuModule,
     MatSelectModule,
-    MatCardModule
+    MatCardModule,
+    MatTooltipModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

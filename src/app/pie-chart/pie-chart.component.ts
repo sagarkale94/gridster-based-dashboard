@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import { DataShareService } from '../data-share.service';
@@ -12,6 +12,7 @@ export class PieCHartComponent implements OnInit {
 
   chart: am4charts.PieChart;
   chartDivId = 'chart' + (Math.floor(Math.random() * 90 + 10) + Math.floor(Math.random() * 90 + 10));
+  @ViewChild('chartPieElement', { static: false }) chartPieElement: ElementRef<HTMLElement>;
 
   constructor(
     private zone: NgZone,
@@ -22,16 +23,22 @@ export class PieCHartComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.dataShareService.getGraphData().subscribe(resp => {
-      setTimeout(() => {
-        let chart = am4core.create(this.chartDivId, am4charts.PieChart);
-        chart.data = resp;
+
+    this.zone.runOutsideAngular(() => {
+      let chart = am4core.create(this.chartPieElement.nativeElement, am4charts.PieChart);
+        chart.data = [];
         let pieSeries = chart.series.push(new am4charts.PieSeries());
         pieSeries.dataFields.value = "visits";
         pieSeries.dataFields.category = "country";
         this.chart = chart;
-      }, 100)
     });
+
+    this.dataShareService.getGraphData().subscribe(resp => {
+      if(this.chart){
+        this.chart.data = resp;   
+      }
+    });
+
   }
 
   getChartDivId() {

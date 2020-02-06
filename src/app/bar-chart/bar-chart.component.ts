@@ -14,8 +14,6 @@ export class BarChartComponent implements OnInit {
   chartDivId = 'chart' + (Math.floor(Math.random() * 90 + 10) + Math.floor(Math.random() * 90 + 10));
   @ViewChild('chartElement', { static: false }) chartElement: ElementRef<HTMLElement>
 
-  i = 0;
-
   constructor(
     private zone: NgZone,
     private dataShareService: DataShareService

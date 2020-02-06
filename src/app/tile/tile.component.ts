@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { DataShareService } from '../data-share.service';
 
 @Component({
@@ -8,6 +8,8 @@ import { DataShareService } from '../data-share.service';
 })
 export class TileComponent implements OnInit {
 
+  @Input()  graphType;
+  
   arrVisualType = [
     {
       value: 0,
@@ -16,17 +18,10 @@ export class TileComponent implements OnInit {
     {
       value: 1,
       viewValue: 'Pie Chart'
-    }
-  ];
-
-  arrFilter = [
-    {
-      value: 0,
-      viewValue: 'USA'
     },
     {
-      value: 1,
-      viewValue: 'China'
+      value: 2,
+      viewValue: 'Guage Chart'
     }
   ];
 
@@ -78,6 +73,17 @@ export class TileComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+     switch (this.graphType) {
+      case 'Bar':
+        this.visualType = 0;
+        break;
+      case 'Pie':
+        this.visualType = 1;
+        break;
+      case 'Guage':
+        this.visualType = 2;
+        break;
+    }
     this.dataShareService.setGraphData(this.graphData);
   }
 

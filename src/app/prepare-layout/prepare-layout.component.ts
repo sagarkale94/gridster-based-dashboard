@@ -2,6 +2,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { CompactType, GridsterConfig, GridsterItem, GridsterItemComponent, GridsterPush, GridType, DisplayGrid } from 'angular-gridster2';
 import { Router } from '@angular/router';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-prepare-layout',
@@ -17,10 +18,16 @@ export class PrepareLayoutComponent implements OnInit {
   itemToPush: GridsterItemComponent;
   arrGraph = [
     {
-      title: 'Bar'
+      title: 'Bar',
+      image: 'assets/images/bar.png'
     },
     {
-      title: 'Pie'
+      title: 'Pie',
+      image: 'assets/images/pie.png'
+    },
+    {
+      title: 'Guage',
+      image: 'assets/images/guage.png'
     }
   ];
   graphTypeRecentlyDragged: string;
@@ -29,11 +36,18 @@ export class PrepareLayoutComponent implements OnInit {
   constructor(
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher,
-    private router: Router
+    private router: Router,
+    private _snackBar: MatSnackBar
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
+  }
+
+  openSnackBar() {
+    this._snackBar.open('Sorry, Nothing to preview..!!','', {
+      duration: 2000,
+    });
   }
 
   ngOnInit() {
@@ -58,33 +72,32 @@ export class PrepareLayoutComponent implements OnInit {
       displayGrid: DisplayGrid.Always,
     };
 
-
-    /* if ((localStorage.getItem('layout') != null) || (localStorage.getItem('layout') != undefined)) {
+    if ((localStorage.getItem('layout') != null) || (localStorage.getItem('layout') != undefined)) {
       this.dashboard = JSON.parse(localStorage.getItem('layout'));
     } else {
-      this.dashboard = [
-        { cols: 2, rows: 1, y: 0, x: 0, initCallback: this.initItem.bind(this) },
-        { cols: 2, rows: 2, y: 0, x: 2 },
-        { cols: 1, rows: 1, y: 0, x: 4 },
-        { cols: 3, rows: 2, y: 1, x: 4 },
-        { cols: 1, rows: 1, y: 4, x: 5 },
-        { cols: 1, rows: 1, y: 2, x: 1 },
-        { cols: 2, rows: 2, y: 5, x: 5 },
-        { cols: 2, rows: 2, y: 3, x: 2 },
-        { cols: 2, rows: 1, y: 2, x: 2 },
-        { cols: 1, rows: 1, y: 3, x: 4 },
-        { cols: 1, rows: 1, y: 0, x: 6 }
-      ];
-    } */
-
-    this.dashboard = [];
+      this.dashboard = [];
+    }
 
   }
 
   newWidgetCallback(event, item) {
+
     item.type = this.graphTypeRecentlyDragged;
-    // console.log(event, item);
+
+    switch (this.graphTypeRecentlyDragged) {
+      case 'Bar':
+        item.image = 'assets/images/bar.png'
+        break;
+      case 'Pie':
+        item.image = 'assets/images/pie.png'
+        break;
+      case 'Guage':
+        item.image = 'assets/images/guage.png'
+        break;
+    }
+
     this.dashboard.push(item);
+
   }
 
   drggedGraph(graphTitle) {
@@ -101,7 +114,7 @@ export class PrepareLayoutComponent implements OnInit {
     }
   }
 
-  removeItem($event, item) {    
+  removeItem($event, item) {
     $event.preventDefault();
     $event.stopPropagation();
     this.dashboard.splice(this.dashboard.indexOf(item), 1);
@@ -132,8 +145,17 @@ export class PrepareLayoutComponent implements OnInit {
   }
 
   showFinalLayout() {
-    localStorage.setItem('layout', JSON.stringify(this.dashboard))
-    this.router.navigate(['/final-layout']);
+    if(this.dashboard.length>0){
+      localStorage.setItem('layout', JSON.stringify(this.dashboard));
+      this.router.navigate(['/final-layout']);
+    }else{
+      this.openSnackBar();
+    }
+  }
+
+  resetLayout(){
+    localStorage.clear();
+    this.dashboard = [];
   }
 
 }
