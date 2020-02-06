@@ -83,7 +83,7 @@ export class PrepareLayoutComponent implements OnInit {
 
   newWidgetCallback(event, item) {
     item.type = this.graphTypeRecentlyDragged;
-    console.log(event, item);
+    // console.log(event, item);
     this.dashboard.push(item);
   }
 

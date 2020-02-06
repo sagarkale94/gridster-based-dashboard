@@ -29,6 +29,7 @@ export class FinalLayoutComponent implements OnInit {
         enabled: false
       },
       maxCols: 6,
+      minCols: 6
     };
 
     this.dashboard = JSON.parse(localStorage.getItem('layout'));

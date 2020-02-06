@@ -1,5 +1,5 @@
 <div style="padding:15px; height: 100%;" fxLayout="column">
-    <div fxLayout="row" fxLayoutAlign="space-between center" style="height: 15%;">
+    <!-- <div fxLayout="row" fxLayoutAlign="space-between center" style="height: 15%;">
         <div>
             <mat-form-field>
                 <mat-label>Filter</mat-label>
@@ -22,7 +22,7 @@
                 <mat-icon>more_vert</mat-icon>
             </button>
         </div>
-    </div>
+    </div> -->
     <div [ngSwitch]="visualType" style="height: 85%;">
         <div *ngSwitchCase="0"  style="height: 100%;">
             <app-bar-chart style="height: 100%;"></app-bar-chart>
