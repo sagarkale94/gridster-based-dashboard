@@ -33,6 +33,7 @@ export class GuageChartComponent implements OnInit {
       axis.strictMinMax = true;
 
       chart.innerRadius = -20;
+      chart.radius = am4core.percent(70);
 
       let range = axis.axisRanges.create();
       range.value = 0;

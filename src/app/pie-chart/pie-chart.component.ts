@@ -26,16 +26,45 @@ export class PieCHartComponent implements OnInit {
 
     this.zone.runOutsideAngular(() => {
       let chart = am4core.create(this.chartPieElement.nativeElement, am4charts.PieChart);
-        chart.data = [];
-        let pieSeries = chart.series.push(new am4charts.PieSeries());
-        pieSeries.dataFields.value = "visits";
-        pieSeries.dataFields.category = "country";
-        this.chart = chart;
+      chart.data = [];
+      chart.responsive.enabled = true;
+      chart.responsive.rules.push({
+        relevant: function (target) {
+          if (target.pixelWidth <= 200) {
+            return true;
+          }
+          return false;
+        },
+        state: function (target, stateId) {
+          if (target instanceof am4charts.PieSeries) {
+            var state = target.states.create(stateId);
+
+            var labelState = target.labels.template.states.create(stateId);
+            labelState.properties.disabled = true;
+
+            var tickState = target.ticks.template.states.create(stateId);
+            tickState.properties.disabled = true;
+            return state;
+          }
+
+          return null;
+        }
+      });
+      let pieSeries = chart.series.push(new am4charts.PieSeries());
+      pieSeries.dataFields.value = "visits";
+      pieSeries.dataFields.category = "country";
+      pieSeries.radius = am4core.percent(50);
+      // pieSeries.ticks.template.disabled = true;
+      // pieSeries.alignLabels = false;
+      // pieSeries.labels.template.text = "{value.percent.formatNumber('#.0')}%";
+      // pieSeries.labels.template.radius = am4core.percent(-40);
+      // pieSeries.labels.template.fill = am4core.color("white");
+      this.chart = chart;
     });
 
     this.dataShareService.getGraphData().subscribe(resp => {
-      if(this.chart){
-        this.chart.data = resp;   
+      if (this.chart) {
+        this.chart.data = resp;
       }
     });
 
